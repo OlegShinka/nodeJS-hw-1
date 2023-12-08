@@ -3,6 +3,10 @@ import path from "path";
 import { nanoid } from "nanoid";
 const contactsPath = path.resolve("db", "contacts.json");
 
+async function upDate(allContacts) {
+  return fs.writeFile(contactsPath, JSON.stringify(allContacts, null, 2));
+}
+
 export const listContacts = async () => {
   const data = await fs.readFile(contactsPath);
   const listContacts = JSON.parse(data);
@@ -22,7 +26,7 @@ export async function addContact(data) {
     ...data,
   };
   allContacts.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(allContacts, null, 2));
+  await upDate(allContacts);
   return newContact;
 }
 
@@ -34,7 +38,8 @@ export async function removeContact(Id) {
     return null;
   }
   const [result] = allContacts.splice(index, 1);
-  await fs.writeFile(contactsPath, JSON.stringify(allContacts, null, 2));
+
+  await upDate(allContacts);
   return result;
 }
 
