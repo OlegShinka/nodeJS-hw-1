@@ -33,12 +33,10 @@ export async function addContact(data) {
 export async function removeContact(Id) {
   const allContacts = await listContacts();
   const index = allContacts.findIndex((item) => item.id === Id);
-  console.log(index);
   if (index === -1) {
     return null;
   }
   const [result] = allContacts.splice(index, 1);
-
   await upDate(allContacts);
   return result;
 }
